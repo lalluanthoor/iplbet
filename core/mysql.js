@@ -7,11 +7,11 @@ var mysql = require('mysql');
 var prod = true;
 
 module.exports.config = {
-    host: "iplbet2.cxsqpqjzmj8y.us-west-2.rds.amazonaws.com",
+    host: "sapipl.000webhostapp.com",
     port: 3306,
-    user: "iplbet",
+    user: "id5164076_iplbet",
     password: "Toor1234",
-    database: "iplbet",
+    database: "id5164076_iplbet",
     timezone: "+0530",
     supportBigNumbers: true,
     expiration: (prod ? 10 : 60) * 60 * 1000,
