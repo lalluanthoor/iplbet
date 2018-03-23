@@ -7,7 +7,7 @@ var mysql = require('mysql');
 var prod = true;
 
 module.exports.config = {
-    host: "sapipl.000webhostapp.com",
+    host: "databases.000webhost.com",
     port: 3306,
     user: "id5164076_iplbet",
     password: "Toor1234",
