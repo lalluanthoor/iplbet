@@ -69,5 +69,4 @@ module.exports = {
 		"Deepak Hooda", "Chris Jordan", "Siddarth Kaul", "Bhuvneshwar Kumar", "Ben Laughlin", "Abhimanyu Mithun", "Mohammad Nabi", "Mohammed Siraj",
 		"Mustafizur Rahman", "Ashish Nehra", "Naman Ojha", "Rashid Khan", "Vijay Shankar", "Barinder Sran", "Pravin Tambe", "Kane Williamson", "Yuvraj Singh" ]
     }
-    
 };
