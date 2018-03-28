@@ -21,7 +21,7 @@ var _tables = {
     bet:
         "CREATE TABLE IF NOT EXISTS `bet` ( `id` INTEGER(10) PRIMARY KEY AUTO_INCREMENT, `pot` INTEGER(4) REFERENCES `pot`(`id`), `user` VARCHAR(100) REFERENCES `user`(`id`), `betOn` VARCHAR(100) NOT NULL, `betTeam` VARCHAR(100) NOT NULL, `betTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `betAmount` BIGINT NOT NULL, `winner` TINYINT DEFAULT NULL, `multiplier` INTEGER(3) DEFAULT 1, `winAmount` BIGINT DEFAULT NULL ) ENGINE=InnoDB;",
     transaction:
-        "CREATE TABLE IF NOT EXISTS `transaction` ( `id` INTEGER(10) PRIMARY KEY AUTO_INCREMENT, `from` VARCHAR(100), `to` VARCHAR(100), `type` VARCHAR(10), `time` DATETIME DEFAULT CURRENT_TIMESTAMP, `amount` BIGINT, `balanceFrom` BIGINT, `balanceTo` BIGINT ) ENGINE=InnoDB;",
+        "CREATE TABLE IF NOT EXISTS `transaction` ( `id` INTEGER(10) PRIMARY KEY AUTO_INCREMENT, `from` VARCHAR(100), `to` VARCHAR(100), `type` VARCHAR(10), `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `amount` BIGINT, `balanceFrom` BIGINT, `balanceTo` BIGINT ) ENGINE=InnoDB;",
     configuration:
         "CREATE TABLE IF NOT EXISTS `configuration` ( `key` VARCHAR(100) PRIMARY KEY, `value` VARCHAR(100) ) ENGINE=InnoDB;"
 };
