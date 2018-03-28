@@ -53,7 +53,7 @@ module.exports.getIPLDate = function (string) {
     var dateParts = parts[0].split("/");
     var dateDD = dateParts[0] < 10 ? "0" + dateParts[0] : dateParts[0];
     var timeHour = parts[1] == 4 ? "16" : "20";
-    return "2017-0" + dateParts[1] + "-" + dateDD + " " + timeHour + ":00:00";
+    return "2018-0" + dateParts[1] + "-" + dateDD + " " + timeHour + ":00:00";
 };
 
 module.exports.getSQLDate = function (date) {

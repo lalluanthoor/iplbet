@@ -3,12 +3,12 @@
 
 var router = require('express').Router();
 
-// IPL T20 APIs - 2017
+// IPL T20 APIs - 2018
 var http = require("http");
 var concat = require("concat-stream");
 
 function toJson(request, response, url) {
-    http.get("http://datacdn.iplt20.com/dynamic/data/core/cricket/2012/ipl2017/" + url + ".js", res => {
+    http.get("http://datacdn.iplt20.com/dynamic/data/core/cricket/2012/ipl2018/" + url + ".js", res => {
         res.pipe(concat({ encoding: 'string' }, function(string) {
             response.status(200).send(string.slice(string.indexOf('(')+1, string.lastIndexOf(')')));
         }));
