@@ -7,11 +7,11 @@ var mysql = require('mysql');
 var prod = true;
 
 module.exports.config = {
-    host: "databases.000webhost.com",
+    host: "sql12.freemysqlhosting.net",
     port: 3306,
-    user: "id5164076_iplbet",
-    password: "Toor1234",
-    database: "id5164076_iplbet",
+    user: "sql12229323",
+    password: "3E3MRnjVuZ",
+    database: "sql12229323",
     timezone: "+0530",
     supportBigNumbers: true,
     expiration: (prod ? 10 : 60) * 60 * 1000,
