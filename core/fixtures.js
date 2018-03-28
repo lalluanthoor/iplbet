@@ -4,16 +4,16 @@ module.exports = [
         away: "RCB",
         fixture: "5/4,8"
     }, {
-        home: "RPS",
+        home: "RR",
         away: "MI",
         fixture: "6/4,8"
     }, {
-        home: "GL",
+        home: "CSK",
         away: "KKR",
         fixture: "7/4,8"
     }, {
         home: "KXIP",
-        away: "RPS",
+        away: "RR",
         fixture: "8/4,4"
     }, {
         home: "RCB",
@@ -21,7 +21,7 @@ module.exports = [
         fixture: "8/4,8"
     }, {
         home: "SRH",
-        away: "GL",
+        away: "CSK",
         fixture: "9/4,4"
     }, {
         home: "MI",
@@ -32,7 +32,7 @@ module.exports = [
         away: "RCB",
         fixture: "10/4,8"
     }, {
-        home: "RPS",
+        home: "RR",
         away: "DD",
         fixture: "11/4,8"
     }, {
@@ -48,8 +48,8 @@ module.exports = [
         away: "MI",
         fixture: "14/4,4"
     }, {
-        home: "GL",
-        away: "RPS",
+        home: "CSK",
+        away: "RR",
         fixture: "14/4,8"
     }, {
         home: "KKR",
@@ -61,11 +61,11 @@ module.exports = [
         fixture: "15/4,8"
     }, {
         home: "MI",
-        away: "GL",
+        away: "CSK",
         fixture: "16/4,4"
     }, {
         home: "RCB",
-        away: "RPS",
+        away: "RR",
         fixture: "16/4,8"
     }, {
         home: "DD",
@@ -76,7 +76,7 @@ module.exports = [
         away: "KXIP",
         fixture: "17/4,8"
     }, {
-        home: "GL",
+        home: "CSK",
         away: "RCB",
         fixture: "18/4,8"
     }, {
@@ -89,10 +89,10 @@ module.exports = [
         fixture: "20/4,8"
     }, {
         home: "KKR",
-        away: "GL",
+        away: "CSK",
         fixture: "21/4,8"
     }, {
-        home: "RPS",
+        home: "RR",
         away: "SRH",
         fixture: "22/4,4"
     }, {
@@ -100,7 +100,7 @@ module.exports = [
         away: "DD",
         fixture: "22/4,8"
     }, {
-        home: "GL",
+        home: "CSK",
         away: "KXIP",
         fixture: "23/4,4"
     }, {
@@ -109,19 +109,19 @@ module.exports = [
         fixture: "23/4,8"
     }, {
         home: "MI",
-        away: "RPS",
+        away: "RR",
         fixture: "24/4,8"
     }, {
         home: "RCB",
         away: "SRH",
         fixture: "25/4,8"
     }, {
-        home: "RPS",
+        home: "RR",
         away: "KKR",
         fixture: "26/4,8"
     }, {
         home: "RCB",
-        away: "GL",
+        away: "CSK",
         fixture: "27/4,8"
     }, {
         home: "KKR",
@@ -132,11 +132,11 @@ module.exports = [
         away: "SRH",
         fixture: "28/4,8"
     }, {
-        home: "RPS",
+        home: "RR",
         away: "RCB",
         fixture: "29/4,4"
     }, {
-        home: "GL",
+        home: "CSK",
         away: "MI",
         fixture: "29/4,8"
     }, {
@@ -152,8 +152,8 @@ module.exports = [
         away: "RCB",
         fixture: "1/5,4"
     }, {
-        home: "RPS",
-        away: "GL",
+        home: "RR",
+        away: "CSK",
         fixture: "1/5,8"
     }, {
         home: "DD",
@@ -161,11 +161,11 @@ module.exports = [
         fixture: "2/5,8"
     }, {
         home: "KKR",
-        away: "RPS",
+        away: "RR",
         fixture: "3/5,8"
     }, {
         home: "DD",
-        away: "GL",
+        away: "CSK",
         fixture: "4/5,8"
     }, {
         home: "RCB",
@@ -173,7 +173,7 @@ module.exports = [
         fixture: "5/5,8"
     }, {
         home: "SRH",
-        away: "RPS",
+        away: "RR",
         fixture: "6/5,4"
     }, {
         home: "DD",
@@ -185,7 +185,7 @@ module.exports = [
         fixture: "7/5,4"
     }, {
         home: "KXIP",
-        away: "GL",
+        away: "CSK",
         fixture: "7/5,8"
     }, {
         home: "SRH",
@@ -196,7 +196,7 @@ module.exports = [
         away: "KKR",
         fixture: "9/5,8"
     }, {
-        home: "GL",
+        home: "CSK",
         away: "DD",
         fixture: "10/5,8"
     }, {
@@ -205,10 +205,10 @@ module.exports = [
         fixture: "11/5,8"
     }, {
         home: "DD",
-        away: "RPS",
+        away: "RR",
         fixture: "12/5,8"
     }, {
-        home: "GL",
+        home: "CSK",
         away: "SRH",
         fixture: "13/5,4"
     }, {
@@ -216,7 +216,7 @@ module.exports = [
         away: "MI",
         fixture: "13/5,8"
     }, {
-        home: "RPS",
+        home: "RR",
         away: "KXIP",
         fixture: "14/5,4"
     }, {

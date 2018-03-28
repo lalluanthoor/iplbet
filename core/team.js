@@ -9,8 +9,8 @@ module.exports = {
 			"Chris Morris", "Shahbaz Nadeem", "Karun Nair", "Rishabh Pant", "Pratyush Singh", "Kagiso Rabada", "Navdeep Saini",
 			"Sanju Samson", "Shashank Singh", "Aditya Tare", "Jayant Yadav" ]
 	},
-    GL: {
-        name: "Gujarat Lions",
+    CSK: {
+        name: "Chennai Super Kings",
         positionLastYear: 3,
         titles: 0,
         players: [ "Suresh Raina", "Akshdeep Nath", "Shubham Agarwal", "Basil Thampi", "Dwayne Bravo", "Chirag Suri", "James Faulkner",
@@ -44,8 +44,8 @@ module.exports = {
 		"Parthiv Patel", "Kieron Pollard", "Nicholas Pooran", "Deepak Punia", "Nitish Rana", "Ambati Rayudu", "Jitesh Sharma", "Karn Sharma",
 		"Lendl Simmons", "Tim Southee", "Jagadeesha Suchith", "Saurabh Tiwary", "Vinay Kumar" ]
     },
-	RPS: {
-        name: "Rising Pune Supergiant",
+	RR: {
+        name: "Rajasthan Royals",
         positionLastYear: 7,
         titles: 0,
         players: [ "Steve Smith", "Mayank Agarwal", "Ankit Sharma", "Baba Aparajith", "Imran Tahir", "Ankush Bains", "Rajat Bhatia",
