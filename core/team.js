@@ -1,72 +1,64 @@
 module.exports = {
-    
     DD: {
 		name: "Delhi Daredevils",
         positionLastYear: 6,
         titles: 0,
-		players: [ "Zaheer Khan", "Ankit Bawne", "Khaleel Ahmed", "Corey Anderson", "Murugan Ashwin", "Sam Billings", "Carlos Brathwaite", 
-			"Pat Cummins", "Quinton de Kock", "Ben Hilfenhaus", "Shreyas Iyer", "Angelo Mathews", "CV Milind", "Amit Mishra", "Mohammed Shami",
-			"Chris Morris", "Shahbaz Nadeem", "Karun Nair", "Rishabh Pant", "Pratyush Singh", "Kagiso Rabada", "Navdeep Saini",
-			"Sanju Samson", "Shashank Singh", "Aditya Tare", "Jayant Yadav" ]
+		players: [ "Abhishek Sharma", "Avesh Khan", "Trent Boult", "Daniel Christian", "Gautam Gambhir", "Sayan Ghosh", "Gurkeerat Singh Mann", "Shreyas Iyer", "Sandeep Lamichhane", "Manjot Kalra", "Glenn Maxwell", "Amit Mishra", "Mohammed Shami", "Chris Morris", "Colin Munro", "Shahbaz Nadeem", "Naman Ojha", "Rishabh Pant", "Harshal Patel", "Kagiso Rabada", "Jason Roy", "Vijay Shankar", "Prithvi Shaw", "Rahul Tewatia", "Jayant Yadav" ]
 	},
     CSK: {
         name: "Chennai Super Kings",
-        positionLastYear: 3,
-        titles: 0,
-        players: [ "Suresh Raina", "Akshdeep Nath", "Shubham Agarwal", "Basil Thampi", "Dwayne Bravo", "Chirag Suri", "James Faulkner",
-		"Aaron Finch", "Manpreet Gony", "Ishan Kishan", "Ravindra Jadeja", "Shadab Jakati", "Dinesh Karthik", "Shivil Kaushik",
-		"Dhawal Kulkarni", "Praveen Kumar", "Brendon McCullum", "Munaf Patel", "Pratham Singh", "Jason Roy", "Pradeep Sangwan",
-		"Jaydev Shah", "Shelley Shaurya", "Nathu Singh", "Dwayne Smith", "Tejas Baroka", "Andrew Tye" ]
+        positionLastYear: -1,
+        titles: 2,
+        players: [ "KM Asif", "Sam Billings", "Chaitanya Bishnoi", "Dwayne Bravo", "Deepak Chahar", "MS Dhoni", "Faf du Plessis",
+		"Harbhajan Singh", "Imran Tahir", "Ravindra Jadeja", "Kedar Jadhav", "Narayan Jagadeesan", "Kshitiz Sharma", "Monu Kumar",
+		"Lungi Ngidi", "Suresh Raina", "Brendon McCullum", "Ambati Rayudu", "Mitchell Santner", "Kanishk Seth", "Karn Sharma",
+		"Dhruv Shorey", "Shardul Thakur", "Murali Vijay", "Shane Watson", "Mark Wood" ]
     },
 	KXIP: {
         name: "Kings XI Punjab",
-        positionLastYear: 8,
+        positionLastYear: 5,
         titles: 0,
-        players: [ "Glenn Maxwell", "Varun Aaron", "Hashim Amla", "Anureet Singh", "Armaan Jaffer", "KC Cariappa", "Martin Guptill",
-		"Gurkeerat Mann Singh", "Matt Henry", "Shaun Marsh", "Ishant Sharma", "David Miller", "Eoin Morgan", "Nikhil Naik",
-		"T Natarajan", "Axar Patel", "Wriddhiman Saha", "Pradeep Sahu", "Darren Sammy", "Sandeep Sharma", "Mohit Sharma",
-		"Rinku Singh", "Marcus Stoinis", "Swapnil Singh", "Rahul Tewatia", "Manan Vohra" ]
+        players: [ "Ravichandran Ashwin", "Akshdeep Nath", "Mayank Agarwal", "Mitchell Johnson", "Aaron Finch", "Chris Gayle", "Manzoor Dar",
+		"David Miller", "Mujeeb Ur Rahman", "Karun Nair", "Lokesh Rahul", "Ankit Rajpoot", "Pardeep Sahu", "Mohit Sharma",
+		"Barinder Sran", "Marcus Stoinis", "Andrew Tye", "Yuvraj Singh", "Axar Patel", "Mayank Dagar", "Ben Dwarshuis"]
     },
 	KKR: {
         name: "Kolkata Knight Riders",
         positionLastYear: 4,
         titles: 2,
-        players: [ "Gautam Gambhir", "Trent Boult", "Darren Bravo", "Piyush Chawla", "Nathan Coulter-Nile", "Rishi Dhawan", "Sayan Ghosh",
-		"Sheldon Jackson", "Ishank Jaggi", "Kuldeep Yadav", "Chris Lynn", "Sunil Narine", "Manish Pandey", "Yusuf Pathan", "Rovman Powell",
-		"Ankit Rajpoot", "Colin de Grandhomme", "R Sanjay Yadav", "Shakib Al Hasan", "Robin Uthappa", "Chris Woakes", "Suryakumar Yadav", "Umesh Yadav" ]
+        players: [ "Dinesh Karthik", "Piyush Chawla", "Cameron Delport", "Ishank Jaggi", "Mitchell Johnson", "Kuldeep Yadav", "Chris Lynn",
+		"Kamlesh Nagarkoti", "Sunil Narine", "Nitish Rana", "Andre Russell", "Javon Searles", "Shivam Mavi", "Shubman Gill", "Rinku Singh",
+		"Mitchell Starc", "Robin Uthappa", "Vinay Kumar", "Apoorv Wankhade" ]
     },
 	MI: {
         name: "Mumbai Indians",
-        positionLastYear: 5,
-        titles: 2,
-        players: [ "Rohit Sharma", "Jasprit Bumrah", "Jos Buttler", "Shreyas Gopal", "Krishnappa Gowtham", "Asela Gunaratne", "Harbhajan Singh",
-		"Mitchell Johnson", "Kulwant Khejroliya", "Siddhesh Lad", "Mitchell McClenaghan", "Lasith Malinga", "Hardik Pandya", "Krunal Pandya",
-		"Parthiv Patel", "Kieron Pollard", "Nicholas Pooran", "Deepak Punia", "Nitish Rana", "Ambati Rayudu", "Jitesh Sharma", "Karn Sharma",
-		"Lendl Simmons", "Tim Southee", "Jagadeesha Suchith", "Saurabh Tiwary", "Vinay Kumar" ]
+        positionLastYear: 1,
+        titles: 3,
+        players: [ "Rohit Sharma", "Jasprit Bumrah", "Rahul Chahar", "Pat Cummins", "Ben Cutting", "Akila Dananjaya", "Jean-Paul Duminy",
+		"Ishan Kishan", "Siddhesh Lad", "Evin Lewis", "Mitchell McClenaghan", "Mayank Markande", "Mohsin Khan", "Mustafizur Rahman",
+		"MD Nidheesh", "Kieron Pollard", "Hardik Pandya", "Krunal Pandya", "Anukul Roy", "Rohit Sharma", "Tajinder Singh", "Aditya Tare",
+		"Saurabh Tiwary", "Suryakumar Yadav", "Jason Behrendorff" ]
     },
 	RR: {
         name: "Rajasthan Royals",
-        positionLastYear: 7,
-        titles: 0,
-        players: [ "Steve Smith", "Mayank Agarwal", "Ankit Sharma", "Baba Aparajith", "Imran Tahir", "Ankush Bains", "Rajat Bhatia",
-		"Usman Khawaja", "Mitchell Marsh", "Ajinkya Rahane", "Saurabh Kumar", "Ben Stokes", "Milind Tandon", "Manoj Tiwary", "Adam Zampa",
-		"Deepak Chahar", "Rahul Chahar", "Dan Christian", "MS Dhoni", "Ashok Dinda", "Francois du Plessis", "Lockie Ferguson", "Jaskaran Singh",
-		"Jaydev Unadkat", "Ishwar Pandey", "Rahul Tripathi" ]
+        positionLastYear: -1,
+        titles: 1,
+        players: [ "Ankit Sharma", "Anureet Singh", "Jofra Archer", "Stuart Binny", "Aryaman Birla", "Jos Buttler", "Dushmantha Chameera",
+		"Prashant Chopra", "Shreyas Gopal", "Ajinkya Rahane", "Krishnappa Gowtham", "Dhawal Kulkarni", "Ben Laughlin", "Mahipal Lomror", "Sudhesan Midhun", "Sanju Samson", "Jatin Saxena", "D'Arcy Short", "Ben Stokes", "Rahul Tripathi", "Jaydev Unadkat" ]
     },
 	RCB: {
         name: "Royal Challengers Bangalore",
-        positionLastYear: 2,
+        positionLastYear: 8,
         titles: 0,
-        players: [ "Virat Kohli", "Sreenath Aravind", "Avesh Khan", "Samuel Badree", "Stuart Binny", "Yuzvendra Chahal", "Aniket Choudhary",
-		"AB de Villiers", "Praveen Dubey", "Chris Gayle", "Travis Head", "Iqbal Abdulla", "Kedar Jadhav", "Sarfaraz Khan", "Mandeep Singh",
-		"Tymal Mills", "Adam Milne", "Pawan Negi", "Harshal Patel", "Lokesh Rahul", "Sachin Baby", "Tabraiz Shamsi", "Billy Stanlake", "Shane Watson" ]
+        players: [ "Virat Kohli", "Moeen Ali", "Corey Anderson", "Murugan Ashwin", "Yuzvendra Chahal", "Aniket Choudhary", "Colin de Grandhomme",
+		"AB de Villiers", "Quinton de Kock", "Pavan Deshpande", "Aniruddha Joshi", "Sarfaraz Khan", "Kulwant Khejroliya", "Brendon McCullum", "Mandeep Singh", "Mohammed Siraj", "Pawan Negi", "Parthiv Patel", "Navdeep Saini", "Manan Vohra", "Tim Southee", "Washington Sundar", "Chris Woakes", "Umesh Yadav", "Nathan Coulter-Nile" ]
     },
 	SRH: {
         name: "Sunrisers Hyderabad",
-        positionLastYear: 1,
+        positionLastYear: 3,
         titles: 1,
-        players: [ "David Warner", "Tanmay Agarwal", "Ricky Bhui", "Bipul Sharma", "Ben Cutting", "Shikhar Dhawan", "Eklavya Dwivedi", "Moises Henriques",
-		"Deepak Hooda", "Chris Jordan", "Siddarth Kaul", "Bhuvneshwar Kumar", "Ben Laughlin", "Abhimanyu Mithun", "Mohammad Nabi", "Mohammed Siraj",
-		"Mustafizur Rahman", "Ashish Nehra", "Naman Ojha", "Rashid Khan", "Vijay Shankar", "Barinder Sran", "Pravin Tambe", "Kane Williamson", "Yuvraj Singh" ]
+        players: [  "Tanmay Agarwal", "Ricky Bhui", "Khaleel Ahmed", "Basil Thampi", "Shikhar Dhawan", "Bipul Sharma", "Carlos Brathwaite",
+		"Shreevats Goswami", "Mehdi Hasan", "Deepak Hooda", "Bhuvneshwar Kumar", "Chris Jordan", "Siddarth Kaul", "Mohammad Nabi", "T Natarajan",
+		"Manish Pandey", "Yusuf Pathan", "Rashid Khan", "Sachin Baby", "Wriddhiman Saha", "Sandeep Sharma", "Shakib Al Hasan", "Billy Stanlake", "Kane Williamson" ]
     }
 };
