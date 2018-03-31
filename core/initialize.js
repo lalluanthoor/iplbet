@@ -115,16 +115,16 @@ function _initializeData() {
                 // Initialize Long-Term Pots
                 var callback = arguments[arguments.length-1];
                 var values = [];
-                values.push([ 'Team - 1st Position', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 1 ]);
-                values.push([ 'Team - 2nd Position', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 1 ]);
-                values.push([ 'Team - 3rd Position', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 1 ]);
-                values.push([ 'Fairplay Team', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 1 ]);
-                values.push([ 'Highest Run Scorer', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 0 ]);
-                values.push([ 'Highest Wicket Taker', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 0 ]);
-                values.push([ 'Emerging Player', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 0 ]);
-                values.push([ 'Player who hit most 6s', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 0 ]);
-                values.push([ 'Player who hit most 4s', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 0 ]);
-                values.push([ 'Best Catch', util.getSQLDate(new Date()), '2017-04-05 15:00:00', 0 ]);
+                values.push([ 'Team - 1st Position', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 1 ]);
+                values.push([ 'Team - 2nd Position', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 1 ]);
+                values.push([ 'Team - 3rd Position', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 1 ]);
+                values.push([ 'Fairplay Team', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 1 ]);
+                values.push([ 'Highest Run Scorer', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 0 ]);
+                values.push([ 'Highest Wicket Taker', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 0 ]);
+                values.push([ 'Emerging Player', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 0 ]);
+                values.push([ 'Player who hit most 6s', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 0 ]);
+                values.push([ 'Player who hit most 4s', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 0 ]);
+                values.push([ 'Best Catch', util.getSQLDate(new Date()), '2018-04-07 15:00:00', 0 ]);
                 connection.query("INSERT INTO `pot` (`displayName`, `openTime`, `closeTime`, `isTeamLevel`) VALUES ?", [values], callback);
             },
             function(results) {

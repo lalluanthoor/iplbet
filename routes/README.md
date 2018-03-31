@@ -280,7 +280,7 @@
   > **success**: "TRANSFER [ &lt;amount&gt; ] to user [ &lt;user&quot;s name&gt; ] successful."
 
 
-## IPL 2017 APIs
+## IPL 2018 APIs
 
 ### Group Standings of the teams
 - **HTTP Method**: GET
