@@ -50,6 +50,10 @@ proc: BEGIN
         SELECT SUM(b.`betAmount`) INTO winAmount FROM `bet` b WHERE b.`winner` = 1 AND b.`pot` = potId;
         SELECT SUM(b.`betAmount`) INTO loseAmount FROM `bet` b WHERE b.`winner` = 0 AND b.`pot` = potId;
 
+        IF loseAmount = NULL THEN
+            SET loseAmount = 0;
+        END IF;
+
         IF winAmount = NULL OR winAmount = 0 THEN
             SET winRatio = 0;
         ELSE
