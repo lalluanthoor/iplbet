@@ -635,7 +635,7 @@ router.post('/update/long-term', util.checkAdmin, function (request, response) {
             console.log("Error Stack Trace: " + exception.stack);
             exception = "Unknown Error Occurred. Contact Technical Administrator.";
         }
-        return status(500).send(exception);
+        return response.status(500).send(exception);
     }
 });
 
