@@ -1,0 +1,55 @@
+<% include ../../partials/admin/header.ejs %>
+    <div class="ui container segment" style="width:90%; margin-left:5%">
+        <div class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <div class="ui segment">
+            <div class="ui header">Rank List</div>
+            <div class="ui form" style="display:inline-block; width:100%;">
+                <div id="ltb">
+                    <table class="ui very basic collapsing striped celled table" style="width:90%; margin-left: 5%;">
+                        <thead>
+                            <tr>
+                                <th style="width:20%">Position</th>
+                                <th style="width:50%">Name</th>
+                                <th style="width:30%; text-align: right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $.ajax('/apis/user/activeadm', {
+            success: function (data) {
+                data = JSON.parse(data);
+
+                var table = $('table')[0];
+                data.forEach((user, index) => {
+                    var tr = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    td1.textContent = index + 1;
+                    tr.appendChild(td1);
+                    var td2 = document.createElement('td');
+                    td2.textContent = user.name;
+                    tr.appendChild(td2);
+                    var td3 = document.createElement('td');
+                    td3.setAttribute('style', "text-align:right");
+                    td3.textContent = user.balance.toLocaleString('en-IN');
+                    tr.appendChild(td3);
+                    table.appendChild(tr);
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                });
+            },
+            error: function (error) {
+                $('.modal .header')[0].textContent = error.statusText;
+                $('.modal .content p')[0].textContent = error.responseText;
+                $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            }
+        })
+    </script>
+    <% include ../../partials/admin/footer.ejs %>

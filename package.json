@@ -1,0 +1,39 @@
+{
+  "name": "iplbet",
+  "version": "0.2.5",
+  "description": "A sample Node.js app using Express 4",
+  "engines": {
+    "node": "6.10.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "async": "^2.1.5",
+    "body-parser": "^1.17.1",
+    "concat-stream": "^1.6.0",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "express-mysql-session": "^1.2.0",
+    "express-session": "^1.15.1",
+    "moment": "^2.18.1",
+    "morgan": "^1.8.1",
+    "nodemailer": "^3.1.7",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth": "^1.0.0",
+    "passport-twitter": "^1.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lalluanthoor/iplbet"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,107 @@
+<% include ../../partials/admin/header.ejs %>
+    <script>
+        var data = [
+            {
+                home: 'Royal Challengers Bangalore',
+                homeShortName: 'RCB',
+                homeAmount: 100000000,
+                away: 'Sun Risers Hyderabad',
+                awayShortName: 'SRH',
+                awayAmount: 74440392,
+                id: 12345
+            }
+        ];
+    </script>
+    <style>
+        .line-item {
+            width: 300px;
+            height: 300px;
+            margin-left: 10% !important;
+        }
+    </style>
+    <div style="width:100%">
+        <div class="ui center aligned container segment">
+            <div class="ui header">SRH vs RCB on 05/04/2018 at 08:00pm</div>
+            <div style="display: flex">
+                <div class="line-item" style="display: flex; margin: auto;">
+                    <div><img src="/images/srh.png" style="height:300px; margin-right: 20px;"></div>
+                    <canvas id="myChart" width="300" height="300" style="height:300px;"></canvas>
+                    <div><img src="/images/rcb.png" style="height:300px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui center aligned container segment">
+            <div class="ui header">SRH vs RCB on 05/04/2018 at 08:00pm</div>
+            <div style="display: flex">
+                <div class="line-item" style="display: flex; margin:auto;">
+                    <div><img src="/images/srh.png" style="height:300px; margin-right: 20px;"></div>
+                    <canvas id="myChart1" width="30" height="30" style="height:300px !important;"></canvas>
+                    <div><img src="/images/rcb.png" style="height:300px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("myChart");
+        var ctx1 = document.getElementById("myChart1");
+        var myChart = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: [data[0].homeShortName, data[0].awayShortName],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [data[0].homeAmount, data[0].awayAmount],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        var myChart1 = new Chart(ctx1, {
+            type: 'polarArea',
+            data: {
+                labels: [data[0].homeShortName, data[0].awayShortName],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [data[0].homeAmount, data[0].awayAmount],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        $('.line-item').each((index, elem)=>{
+            elem.setAttribute('style', 'display:flex; margin:auto');
+        });
+    </script>
+    <% include ../../partials/admin/footer.ejs %>

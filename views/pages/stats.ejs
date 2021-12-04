@@ -1,0 +1,247 @@
+<% include ../partials/header.ejs %>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    <div class="ui top attached tabular link menu" style="width:80%; margin-left: 10%;">
+        <div class="active item" id="team">Team Standings</div>
+        <div class="item" id="orange">Orange Cap Standings</div>
+        <div class="item" id="purple">Purple Cap Standings</div>
+    </div>
+    <div class="ui bottom attached active tab segment" style="width:80%; margin-left: 10%;">
+        <div id="team-stat" class="tabelement">
+            <table class="ui very basic collapsing striped celled table" style="width:90%; margin-left: 5%;">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Team</th>
+                        <th>Played</th>
+                        <th>Won</th>
+                        <th>Lost</th>
+                        <th>Tie/NR</th>
+                        <th>Points</th>
+                        <th>NRR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="orange-stat" class="tabelement hidden">
+            <table class="ui very basic collapsing striped celled table" style="width:90%; margin-left: 5%;">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Player</th>
+                        <th>Matches</th>
+                        <th>Runs</th>
+                        <th>High Score</th>
+                        <th>6s</th>
+                        <th>4s</th>
+                        <th>Strike Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="purple-stat" class="tabelement hidden">
+            <table class="ui very basic collapsing striped celled table" style="width:90%; margin-left: 5%;">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Player</th>
+                        <th>Matches</th>
+                        <th>Wickets</th>
+                        <th>Economy</th>
+                        <th>Best Figures</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        //TAB SWITCHING LOGIC
+        $('.tabular.link.menu .item').on('click', function (oEvent) {
+            $('.tabular.link.menu .item').removeClass('active');
+            $('.tabelement').each(function (index, element) {
+                element.setAttribute('class', 'tabelement hidden');
+            });
+            oEvent.target.setAttribute('class', 'active item');
+            $('#' + oEvent.target.id + '-stat').removeClass('hidden');
+        });
+
+        //TAB FILLING LOGIC
+        //TEAM TAB
+        $.ajax('/ipl/standings', {
+            success: function (data) {
+                data = JSON.parse(data).groups[0].standings;
+                var parent = document.querySelector('#team-stat tbody');
+                data.forEach(function (team) {
+                    var tr = document.createElement('tr');
+
+                    var td1 = document.createElement('td');
+                    td1.textContent = team.position;
+                    tr.appendChild(td1);
+
+                    var td2 = document.createElement('td');
+                    var h4 = document.createElement('h4');
+                    h4.setAttribute('class', 'ui image header');
+                    var divContent = document.createElement('div');
+                    divContent.setAttribute('class', 'content');
+                    divContent.appendChild(document.createTextNode(team.team.abbreviation));
+                    var divSubHeader = document.createElement('div');
+                    divSubHeader.setAttribute('class', 'sub header');
+                    divSubHeader.textContent = team.team.fullName;
+                    divContent.appendChild(divSubHeader);
+                    var img = document.createElement('img');
+                    img.setAttribute('src', 'images/' + team.team.abbreviation.toLowerCase() + '.png');
+                    img.setAttribute('class', 'ui mini rounded image');
+                    h4.appendChild(img);
+                    h4.appendChild(divContent);
+                    td2.appendChild(h4);
+                    tr.appendChild(td2);
+
+                    var td3 = document.createElement('td');
+                    td3.textContent = team.played;
+                    tr.appendChild(td3);
+
+                    var td4 = document.createElement('td');
+                    td4.textContent = team.won;
+                    tr.appendChild(td4);
+
+                    var td5 = document.createElement('td');
+                    td5.textContent = team.lost;
+                    tr.appendChild(td5);
+
+                    var td6 = document.createElement('td');
+                    td6.textContent = team.noResult + team.tied;
+                    tr.appendChild(td6);
+
+                    var td7 = document.createElement('td');
+                    td7.textContent = team.points;
+                    tr.appendChild(td7);
+
+                    var td8 = document.createElement('td');
+                    td8.textContent = team.netRunRate;
+                    tr.appendChild(td8);
+
+                    parent.appendChild(tr);
+                });
+            }
+        });
+
+        //ORANGE TAB
+        $.ajax('/ipl/most-runs', {
+            success: function (data) {
+                var oranges = JSON.parse(data).mostRuns[0].topPlayers;
+                var parent = document.querySelector('#orange-stat tbody');
+                oranges.forEach(function (orange, index) {
+                    var tr = document.createElement('tr');
+
+                    var td1 = document.createElement('td');
+                    td1.textContent = index + 1;
+                    tr.appendChild(td1);
+
+                    var td2 = document.createElement('td');
+                    var h4 = document.createElement('h4');
+                    h4.setAttribute('class', 'ui image header');
+                    var divContent = document.createElement('div');
+                    divContent.setAttribute('class', 'content');
+                    divContent.appendChild(document.createTextNode(orange.player.fullName));
+                    var divSubHeader = document.createElement('div');
+                    divSubHeader.setAttribute('class', 'sub header');
+                    divSubHeader.textContent = orange.team.fullName;
+                    divContent.appendChild(divSubHeader);
+                    var img = document.createElement('img');
+                    img.setAttribute('src', 'images/' + orange.team.abbreviation.toLowerCase() + '.png');
+                    img.setAttribute('class', 'ui mini rounded image');
+                    h4.appendChild(img);
+                    h4.appendChild(divContent);
+                    td2.appendChild(h4);
+                    tr.appendChild(td2);
+
+                    var td3 = document.createElement('td');
+                    td3.textContent = orange.battingStats.m;
+                    tr.appendChild(td3);
+
+                    var td4 = document.createElement('td');
+                    td4.textContent = orange.battingStats.r;
+                    tr.appendChild(td4);
+
+                    var td45 = document.createElement('td');
+                    td45.textContent = orange.battingStats.hs;
+                    tr.appendChild(td45);
+
+                    var td5 = document.createElement('td');
+                    td5.textContent = orange.battingStats['6s'];
+                    tr.appendChild(td5);
+
+                    var td6 = document.createElement('td');
+                    td6.textContent = orange.battingStats['4s'];
+                    tr.appendChild(td6);
+
+                    var td7 = document.createElement('td');
+                    td7.textContent = orange.battingStats.sr;
+                    tr.appendChild(td7);
+
+                    parent.appendChild(tr);
+                });
+            }
+        });
+
+        //PURPLE TAB
+        $.ajax('/ipl/most-wickets', {
+            success: function (data) {
+                var purples = JSON.parse(data).mostWickets[0].topPlayers;
+                var parent = document.querySelector('#purple-stat tbody');
+                purples.forEach(function (purple, index) {
+                    var tr = document.createElement('tr');
+
+                    var td1 = document.createElement('td');
+                    td1.textContent = index + 1;
+                    tr.appendChild(td1);
+
+                    var td2 = document.createElement('td');
+                    var h4 = document.createElement('h4');
+                    h4.setAttribute('class', 'ui image header');
+                    var divContent = document.createElement('div');
+                    divContent.setAttribute('class', 'content');
+                    divContent.appendChild(document.createTextNode(purple.player.fullName));
+                    var divSubHeader = document.createElement('div');
+                    divSubHeader.setAttribute('class', 'sub header');
+                    divSubHeader.textContent = purple.team.fullName;
+                    divContent.appendChild(divSubHeader);
+                    var img = document.createElement('img');
+                    img.setAttribute('src', 'images/' + purple.team.abbreviation.toLowerCase() + '.png');
+                    img.setAttribute('class', 'ui mini rounded image');
+                    h4.appendChild(img);
+                    h4.appendChild(divContent);
+                    td2.appendChild(h4);
+                    tr.appendChild(td2);
+
+                    var td3 = document.createElement('td');
+                    td3.textContent = purple.bowlingStats.m;
+                    tr.appendChild(td3);
+
+                    var td4 = document.createElement('td');
+                    td4.textContent = purple.bowlingStats.w;
+                    tr.appendChild(td4);
+
+                    var td5 = document.createElement('td');
+                    td5.textContent = purple.bowlingStats.e;
+                    tr.appendChild(td5);
+
+                    var td6 = document.createElement('td');
+                    td6.textContent = purple.bowlingStats.bbiw + '/' + purple.bowlingStats.bbir;
+                    tr.appendChild(td6);
+
+                    parent.appendChild(tr);
+                });
+            }
+        })
+    </script>
+    <% include ../partials/footer.ejs %>

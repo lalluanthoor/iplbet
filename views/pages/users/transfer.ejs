@@ -1,0 +1,84 @@
+<% include ../../partials/users/header.ejs %>
+    <% if (user.balance !== undefined && user.balance !== null) { %>
+        <%- '<script>var balance ="' +  user.balance + '";</script>' %>
+            <% } %>
+                <div class="ui container segment" style="width: 80%; margin-left: 10%;">
+                    <div class="ui active inverted dimmer">
+                        <div class="ui text loader">Loading</div>
+                    </div>
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Transfer Money To</label>
+                            <select name="to" id="transferTo" class="ui fluid search dropdown">
+                                <option value="-1">Select User</option>
+                            </select>
+                        </div>
+                        <div class="ui segment">
+                            <div class="ui range" id="range-2"></div>
+                            <br>
+                            <div class="inline field">
+                                <label>Transfer Amount</label>
+                                <div class="ui labeled input">
+                                    <div class="ui label">₹</div>
+                                    <input type="number" name="amount" id="input-2" style="text-align: right">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="ui positive button" id="transfer">Transfer</button>
+                    </div>
+                </div>
+                <script>
+                    $('.dropdown').dropdown();
+                    $.ajax('/apis/user/active', {
+                        success: function (data) {
+                            data = JSON.parse(data);
+                            var select = $('#transferTo')[0];
+                            data.forEach((user) => {
+                                var option = document.createElement('option');
+                                option.setAttribute('value', user.id);
+                                option.textContent = user.name;
+                                select.appendChild(option);
+                            });
+                            $('#transfer')[0].addEventListener('click', function (oEvent) {
+                                $('.dimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+                                var payload = {
+                                    to: $('#transferTo').val(),
+                                    amount: parseInt($('#input-2').val(), 10)
+                                };
+                                if (payload.to === -1 || payload.amount < 1000) {
+                                    $('.modal .header')[0].textContent = 'Transfer Error';
+                                    $('.modal .content p')[0].textContent = 'You should select an active user and transfer amounts greater than 1000.';
+                                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                                } else {
+                                    $.ajax('/apis/balance/transfer', {
+                                        method: 'POST',
+                                        contentType: 'application/json',
+                                        data: JSON.stringify(payload),
+                                        success: function (data) {
+                                            $('.modal .header')[0].textContent = 'Success';
+                                            $('.modal .content p')[0].textContent = data;
+                                            $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                                            $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                                        },
+                                        error: function (error) {
+                                            $('.modal .header')[0].textContent = error.statusText;
+                                            $('.modal .content p')[0].textContent = error.responseText;
+                                            $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                                            $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                                        }
+                                    });
+                                }
+
+                            });
+                            $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                        }
+                    });
+                    $('#range-2').range({
+                        min: 1000,
+                        max: balance,
+                        start: 1000,
+                        input: '#input-2'
+                    });
+                </script>
+                <% include ../../partials/users/footer.ejs %>

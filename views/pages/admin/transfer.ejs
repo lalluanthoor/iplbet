@@ -1,0 +1,121 @@
+<% include ../../partials/admin/header.ejs %>
+    <style>
+        .__switch {
+            position: relative;
+            display: inline-block;
+            width: 360px;
+            height: 134px;
+        }
+        
+        .__switch input {
+            display: none;
+        }
+        
+        .__slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        
+        .__slider:before {
+            position: absolute;
+            content: "";
+            height: 126px;
+            width: 126px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        
+        input:checked+.__slider {
+            background-color: #2196F3;
+        }
+        
+        input:focus+.__slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        
+        input:checked+.__slider:before {
+            -webkit-transform: translateX(226px);
+            -ms-transform: translateX(226px);
+            transform: translateX(226px);
+        }
+        /* Rounded __sliders */
+        
+        .__slider.round {
+            border-radius: 134px;
+        }
+        
+        .__slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+    <div class="ui container segment" style="width:90%; margin-left: 5%;">
+        <div class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <div style="width:100%; display: flex">
+            <div style="margin: auto">
+                <label class="__switch"><input type="checkbox" id="transferable"><div class="__slider round"></div></label>
+            </div>
+        </div>
+    </div>
+    <script>
+        $.ajax('/apis/transfer-allowed', {
+            success: function (data) {
+                $('#transferable').prop('checked', data);
+                $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            },
+            error: function (error) {
+                $('.modal .header')[0].textContent = error.statusText;
+                $('.modal .content p')[0].textContent = error.responseText;
+                $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            }
+        });
+        $('.__switch input[type=checkbox]')[0].addEventListener('change', function (oEvent) {
+            $('.dimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+            if (oEvent.target.checked) {
+                $.ajax('/apis/admin/enable-transfer', {
+                    method: 'POST',
+                    success: function (data) {
+                        $('.modal .header')[0].textContent = 'Success';
+                        $('.modal .content p')[0].textContent = data;
+                        $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                        $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                    },
+                    error: function (error) {
+                        $('.modal .header')[0].textContent = error.statusText;
+                        $('.modal .content p')[0].textContent = error.responseText;
+                        $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                        $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                    }
+                });
+            } else {
+                $.ajax('/apis/admin/disable-transfer', {
+                    method: 'POST',
+                    success: function (data) {
+                        $('.modal .header')[0].textContent = 'Success';
+                        $('.modal .content p')[0].textContent = data;
+                        $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                        $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                    },
+                    error: function (error) {
+                        $('.modal .header')[0].textContent = error.statusText;
+                        $('.modal .content p')[0].textContent = error.responseText;
+                        $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                        $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                    }
+                });
+            }
+        });
+    </script>
+    <% include ../../partials/admin/footer.ejs %>

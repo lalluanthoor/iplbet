@@ -1,0 +1,87 @@
+<% include ../partials/header.ejs %>
+    <script>
+        function shuffle(array) {
+            var currentIndex = array.length,
+                temporaryValue, randomIndex;
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
+
+    </script>
+    <style>
+        .ui.four.cards>.card {
+            width: calc(25% - 1.5em);
+            margin-left: .75em;
+            margin-right: .75em;
+            min-width: 320px;
+        }
+
+    </style>
+
+    <div class="ui link four cards segment">
+    </div>
+    <script>
+        $.ajax('/apis/team/all', {
+            success: function(data) {
+                data = JSON.parse(data);
+                data = shuffle(data);
+                var parent = document.querySelector('.ui.link.cards');
+                data.forEach(function(team) {
+                    var card = document.createElement('div');
+                    card.setAttribute('class', 'ui centered raised card');
+
+                    var imagediv = document.createElement('div');
+                    imagediv.setAttribute('class', 'image');
+                    var image = document.createElement('img');
+                    image.setAttribute('src', '/images/' + team.id.toLowerCase() + '.png');
+                    image.setAttribute('style', 'padding:5px');
+                    imagediv.appendChild(image);
+
+                    var contentdiv = document.createElement('div');
+                    contentdiv.setAttribute('class', 'content');
+                    var headerdiv = document.createElement('div');
+                    headerdiv.setAttribute('class', 'header');
+                    headerdiv.textContent = team.name;
+                    var metadiv = document.createElement('div');
+                    metadiv.setAttribute('class', 'meta');
+                    metadiv.textContent = team.shortName;
+                    var descriptiondiv = document.createElement('div');
+                    descriptiondiv.setAttribute('class', 'description');
+                    descriptiondiv.innerHTML = '<strong>Captain:</strong> ' + team.captain;
+                    contentdiv.appendChild(headerdiv);
+                    contentdiv.appendChild(metadiv);
+                    contentdiv.appendChild(descriptiondiv);
+
+                    var extradiv = document.createElement('div');
+                    extradiv.setAttribute('class', 'extra content');
+                    var rightspan = document.createElement('span');
+                    rightspan.setAttribute('class', 'right floated');
+                    rightspan.textContent = '#' + team.positionLastYear + ' in 2017';
+                    var leftspan = document.createElement('span');
+                    var icon = document.createElement('i');
+                    icon.setAttribute('class', 'trophy icon');
+                    leftspan.appendChild(icon);
+                    leftspan.appendChild(document.createTextNode(team.titles + ' titles'));
+                    extradiv.appendChild(rightspan);
+                    extradiv.appendChild(leftspan);
+
+                    card.appendChild(imagediv);
+                    card.appendChild(contentdiv);
+                    card.appendChild(extradiv);
+
+                    parent.appendChild(card);
+                });
+            }
+        });
+
+    </script>
+    <% include ../partials/footer.ejs %>

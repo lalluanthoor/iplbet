@@ -1,0 +1,89 @@
+<% include ../partials/header.ejs %>
+    <div class="ui link segment" style="width:60%; margin-left:20%;">
+        <div class="ui header">Fixtures &amp; Results</div>
+        <table class="ui very basic collapsing striped celled table" style="width:80%; margin-left:10%;">
+            <thead>
+                <tr>
+                    <th style="text-align: right">Home Team</th>
+                    <th style="text-align: center">Date/Result</th>
+                    <th>Away Team</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $.ajax('/apis/match/all', {
+            success: function(data) {
+                data = JSON.parse(data);
+                var parent = document.querySelector('.ui.very.basic.collapsing.striped.celled.table tbody');
+                data.forEach(function(match) {
+                    var tr = document.createElement('tr');
+
+                    var tdHome = document.createElement('td');
+                    tdHome.setAttribute('style', 'text-align:right !important');
+                    var h4Home = document.createElement('h4');
+                    h4Home.setAttribute('class', 'ui image header');
+                    var divHomeContent = document.createElement('div');
+                    divHomeContent.setAttribute('class', 'content');
+                    divHomeContent.appendChild(document.createTextNode(match.home.shortName));
+                    var divHomeSubHeader = document.createElement('div');
+                    divHomeSubHeader.setAttribute('class', 'sub header');
+                    divHomeSubHeader.textContent = match.home.name;
+                    divHomeContent.appendChild(divHomeSubHeader);
+                    var imgHome = document.createElement('img');
+                    imgHome.setAttribute('src', 'images/' + match.home.shortName.toLowerCase() + '.png');
+                    imgHome.setAttribute('class', 'ui mini rounded image');
+                    imgHome.setAttribute('style', 'padding-left: 5px');
+                    h4Home.appendChild(divHomeContent);
+                    h4Home.appendChild(imgHome);
+                    tdHome.appendChild(h4Home);
+
+                    var tdMiddle = document.createElement('td');
+                    var h4Middle = document.createElement('h4');
+                    h4Middle.setAttribute('class', 'ui header');
+                    h4Middle.setAttribute('style', 'text-align: center !important');
+                    var divMiddleContent = document.createElement('div');
+                    divMiddleContent.setAttribute('class', 'content');
+                    var divMiddleSubHeader = document.createElement('div');
+                    divMiddleSubHeader.setAttribute('class', 'sub header');
+                    if (match.result) {
+                        divMiddleContent.appendChild(document.createTextNode(match.result.won + ' won'));
+                        //divMiddleSubHeader.textContent = 'by ' + match.result.by;
+                    } else {
+                        divMiddleContent.appendChild(document.createTextNode(match.fixture.date));
+                        divMiddleSubHeader.textContent = match.fixture.time;
+                    }
+                    divMiddleContent.appendChild(divMiddleSubHeader);
+                    h4Middle.appendChild(divMiddleContent);
+                    tdMiddle.appendChild(h4Middle);
+
+                    var tdAway = document.createElement('td');
+                    var h4Away = document.createElement('h4');
+                    h4Away.setAttribute('class', 'ui image header');
+                    var divAwayContent = document.createElement('div');
+                    divAwayContent.setAttribute('class', 'content');
+                    divAwayContent.appendChild(document.createTextNode(match.away.shortName));
+                    var divAwaySubHeader = document.createElement('div');
+                    divAwaySubHeader.setAttribute('class', 'sub header');
+                    divAwaySubHeader.textContent = match.away.name;
+                    divAwayContent.appendChild(divAwaySubHeader);
+                    var imgAway = document.createElement('img');
+                    imgAway.setAttribute('src', 'images/' + match.away.shortName.toLowerCase() + '.png');
+                    imgAway.setAttribute('class', 'ui mini rounded image');
+                    h4Away.appendChild(imgAway);
+                    h4Away.appendChild(divAwayContent);
+                    tdAway.appendChild(h4Away);
+
+                    tr.appendChild(tdHome);
+                    tr.appendChild(tdMiddle);
+                    tr.appendChild(tdAway);
+
+                    parent.appendChild(tr);
+                });
+            }
+        });
+
+    </script>
+    <% include ../partials/footer.ejs %>

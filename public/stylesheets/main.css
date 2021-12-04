@@ -1,0 +1,34 @@
+.logo-image {
+    padding-left: 10px;
+}
+
+.logo-image img {
+    height: 60px;
+}
+
+.burger-menu {
+    width: 20px;
+}
+
+.auth-logo {
+    width: 30px;
+    margin-right: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .logo-image {
+        display: none;
+    }
+    .burger-menu {
+        display: block !important;
+    }
+    nav {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .burger-menu {
+        display: none !important;
+    }
+}

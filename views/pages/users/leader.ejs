@@ -1,0 +1,30 @@
+<% include ../../partials/users/header.ejs %>
+    <table class="ui very basic collapsing striped celled table" style="width:90%; margin-left: 5%;">
+        <thead>
+            <tr>
+                <th style="width:25%">Position</th>
+                <th style="width:75%">Player</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        $.ajax('/apis/user/leaderboard', {
+            success: function(data){
+                data = JSON.parse(data);
+                var table = $('table')[0];
+                data.forEach((user, index)=>{
+                    var tr = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    td1.textContent = index+1;
+                    var td2 = document.createElement('td');
+                    td2.textContent = user.name;
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    table.appendChild(tr);
+                });
+            }
+        })
+    </script>
+    <% include ../../partials/users/footer.ejs %>

@@ -1,0 +1,215 @@
+<% include ../../partials/users/header.ejs %>
+    <style>
+        .statistic {
+            width: 100%;
+        }
+        
+        .ui.statistic>.value,
+        .ui.statistics .statistic>.value {
+            font-size: 2.75rem !important;
+        }
+
+    </style>
+    <div class="ui cards segment" style="width:90%; margin-left:5%; margin-top:20px;">
+        <div class="ui centered card">
+            <div class="content">
+                <div class="ui blue statistic">
+                    <div class="value">₹
+                        <br>
+                        <%= user.moneyInHand.toLocaleString('en-IN') %>
+                    </div>
+                    <div class="label">Cash In Hand</div>
+                </div>
+            </div>
+        </div>
+        <div class="ui centered card">
+            <div class="content">
+                <div class="ui yellow statistic">
+                    <div class="value">₹
+                        <br>
+                        <%= user.moneyInBet.toLocaleString('en-IN') %>
+                    </div>
+                    <div class="label">Money in Bets</div>
+                </div>
+            </div>
+        </div>
+        <div class="ui centered card">
+            <div class="content">
+                <div class="ui green statistic">
+                    <div class="value">₹
+                        <br>
+                        <%= user.moneyWon.toLocaleString('en-IN') %>
+                    </div>
+                    <div class="label">Money Won</div>
+                </div>
+            </div>
+        </div>
+        <div class="ui centered card">
+            <div class="content">
+                <div class="ui red statistic">
+                    <div class="value">₹
+                        <br>
+                        <%= user.moneyLost.toLocaleString('en-IN') %>
+                    </div>
+                    <div class="label">Money Lost</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui segment" style="width:44% !important; margin-right: 5%; margin-top:2%; float: right; overflow: scroll; height:50% !important;">
+        <div class="ui active inverted dimmer" id="listBusy">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <div class="ui header">Bet on Upcoming Matches</div>
+        <table class="ui very basic collapsing selectable celled table" style="width:90%; margin-left:5%;">
+            <thead>
+                <tr>
+                    <th style="text-align: right">Home Team</th>
+                    <th style="text-align: center">Date/Result</th>
+                    <th>Away Team</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="ui segment chart" style="width:44% !important; margin-left: 5%; margin-top:2%;">
+        <div class="ui active inverted dimmer" id="chartBusy">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+
+    <script>
+        $.ajax('/apis/user/balance/10', {
+            success: function(data) {
+                data = JSON.parse(data);
+                var ctx = document.getElementById("myChart");
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.x,
+                        datasets: [{
+                            tension: 0.1,
+                            label: 'Cash in Hand',
+                            data: data.y,
+                            backgroundColor: [
+                                'rgba(255, 255, 255, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+                $('#chartBusy')[0].setAttribute('class', 'ui inverted dimmer');
+            },
+            error: function(error) {
+                $('.modal .header')[0].textContent = error.statusText;
+                $('.modal .content p')[0].textContent = error.responseText;
+                $('.chart')[0].innerHTML = 'Unable to load chart';
+                $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                $('#chartBusy')[0].setAttribute('class', 'ui inverted dimmer');
+            }
+        });
+
+    </script>
+    <script>
+        function cleanPath(path) {
+            if (path[path.length - 1] == '/') {
+                return path.slice(0, path.length - 1);
+            } else {
+                return path;
+            }
+        }
+        $.ajax('/apis/match/undeclared', {
+            success: function(data) {
+                var upcomingMatches = JSON.parse(data);
+                var parent = document.querySelector('.ui.very.basic.collapsing.selectable.celled.table tbody');
+                for (var i = 0; i < upcomingMatches.length; i++) {
+                    var match = upcomingMatches[i];
+                    var tr = document.createElement('tr');
+                    tr.setAttribute('id', match.id);
+                    tr.setAttribute('style', 'cursor:pointer');
+                    tr.addEventListener('click', function(oEvent) {
+                        window.location = 'http://' + window.location.host + '/users/betzone/' + oEvent.currentTarget.id;
+                    });
+
+                    var tdHome = document.createElement('td');
+                    tdHome.setAttribute('style', 'text-align:right !important');
+                    var h4Home = document.createElement('h4');
+                    h4Home.setAttribute('class', 'ui image header');
+                    var divHomeContent = document.createElement('div');
+                    divHomeContent.setAttribute('class', 'content');
+                    divHomeContent.appendChild(document.createTextNode(match.home.shortName));
+                    var divHomeSubHeader = document.createElement('div');
+                    divHomeSubHeader.setAttribute('class', 'sub header');
+                    divHomeSubHeader.textContent = match.home.name;
+                    divHomeContent.appendChild(divHomeSubHeader);
+                    var imgHome = document.createElement('img');
+                    imgHome.setAttribute('src', '/images/' + match.home.shortName.toLowerCase() + '.png');
+                    imgHome.setAttribute('class', 'ui mini rounded image');
+                    imgHome.setAttribute('style', 'padding-left: 5px');
+                    h4Home.appendChild(divHomeContent);
+                    h4Home.appendChild(imgHome);
+                    tdHome.appendChild(h4Home);
+
+                    var tdMiddle = document.createElement('td');
+                    var h4Middle = document.createElement('h4');
+                    h4Middle.setAttribute('class', 'ui header');
+                    h4Middle.setAttribute('style', 'text-align: center !important');
+                    var divMiddleContent = document.createElement('div');
+                    divMiddleContent.setAttribute('class', 'content');
+                    var divMiddleSubHeader = document.createElement('div');
+                    divMiddleSubHeader.setAttribute('class', 'sub header');
+                    if (match.result) {
+                        divMiddleContent.appendChild(document.createTextNode(match.result.won + ' won'));
+                        divMiddleSubHeader.textContent = 'by ' + match.result.by;
+                    } else {
+                        divMiddleContent.appendChild(document.createTextNode(match.fixture.date));
+                        divMiddleSubHeader.textContent = match.fixture.time;
+                    }
+                    divMiddleContent.appendChild(divMiddleSubHeader);
+                    h4Middle.appendChild(divMiddleContent);
+                    tdMiddle.appendChild(h4Middle);
+
+                    var tdAway = document.createElement('td');
+                    var h4Away = document.createElement('h4');
+                    h4Away.setAttribute('class', 'ui image header');
+                    var divAwayContent = document.createElement('div');
+                    divAwayContent.setAttribute('class', 'content');
+                    divAwayContent.appendChild(document.createTextNode(match.away.shortName));
+                    var divAwaySubHeader = document.createElement('div');
+                    divAwaySubHeader.setAttribute('class', 'sub header');
+                    divAwaySubHeader.textContent = match.away.name;
+                    divAwayContent.appendChild(divAwaySubHeader);
+                    var imgAway = document.createElement('img');
+                    imgAway.setAttribute('src', '/images/' + match.away.shortName.toLowerCase() + '.png');
+                    imgAway.setAttribute('class', 'ui mini rounded image');
+                    h4Away.appendChild(imgAway);
+                    h4Away.appendChild(divAwayContent);
+                    tdAway.appendChild(h4Away);
+
+                    tr.appendChild(tdHome);
+                    tr.appendChild(tdMiddle);
+                    tr.appendChild(tdAway);
+
+                    parent.appendChild(tr);
+                }
+                $('#listBusy')[0].setAttribute('class', 'ui inverted dimmer');
+            }
+        });
+
+    </script>
+    <% include ../../partials/users/footer.ejs %>

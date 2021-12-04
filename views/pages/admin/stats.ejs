@@ -1,0 +1,89 @@
+<% include ../../partials/admin/header.ejs %>
+    <div class="ui container segment" style="width:90%; margin-left:5%;">
+        <table class="ui very basic collapsing striped celled table" style="width:80%; margin-left:10%;">
+            <thead>
+                <tr>
+                    <th style="text-align:center">Amount</th>
+                    <th style="text-align: right">Home Team</th>
+                    <th style="text-align: center">Pot</th>
+                    <th>Away Team</th>
+                    <th style="text-align:center">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $.ajax('/apis/pot/open/teams', {
+            success: function(data) {
+                data = JSON.parse(data);
+                var parent = document.querySelector('.ui.very.basic.collapsing.striped.celled.table tbody');
+                for(var datum in data) {
+                    var match = data[datum];
+                    var tr = document.createElement('tr');
+
+                    var tdHomeAmount = document.createElement('td');
+                    tdHomeAmount.setAttribute('style', 'text-align:center !important');
+                    tdHomeAmount.textContent = typeof match.teams[match.homeShort] !== 'undefined' ? match.teams[match.homeShort].toLocaleString('en-IN') : '0';
+
+                    var tdHome = document.createElement('td');
+                    tdHome.setAttribute('style', 'text-align:right !important');
+                    var h4Home = document.createElement('h4');
+                    h4Home.setAttribute('class', 'ui image header');
+                    var divHomeContent = document.createElement('div');
+                    divHomeContent.setAttribute('class', 'content');
+                    divHomeContent.appendChild(document.createTextNode(match.homeShort));
+                    var divHomeSubHeader = document.createElement('div');
+                    divHomeSubHeader.setAttribute('class', 'sub header');
+                    divHomeSubHeader.textContent = match.home;
+                    divHomeContent.appendChild(divHomeSubHeader);
+                    var imgHome = document.createElement('img');
+                    imgHome.setAttribute('src', '/images/' + match.homeShort.toLowerCase() + '.png');
+                    imgHome.setAttribute('class', 'ui mini rounded image');
+                    imgHome.setAttribute('style', 'padding-left: 5px');
+                    h4Home.appendChild(divHomeContent);
+                    h4Home.appendChild(imgHome);
+                    tdHome.appendChild(h4Home);
+
+                    var tdMiddle = document.createElement('td');
+                    var h4Middle = document.createElement('h4');
+                    h4Middle.setAttribute('class', 'ui header');
+                    h4Middle.setAttribute('style', 'text-align: center !important');
+                    h4Middle.textContent = match.potName.split(':')[0];
+                    tdMiddle.appendChild(h4Middle);
+
+                    var tdAway = document.createElement('td');
+                    var h4Away = document.createElement('h4');
+                    h4Away.setAttribute('class', 'ui image header');
+                    var divAwayContent = document.createElement('div');
+                    divAwayContent.setAttribute('class', 'content');
+                    divAwayContent.appendChild(document.createTextNode(match.awayShort));
+                    var divAwaySubHeader = document.createElement('div');
+                    divAwaySubHeader.setAttribute('class', 'sub header');
+                    divAwaySubHeader.textContent = match.away;
+                    divAwayContent.appendChild(divAwaySubHeader);
+                    var imgAway = document.createElement('img');
+                    imgAway.setAttribute('src', '/images/' + match.awayShort.toLowerCase() + '.png');
+                    imgAway.setAttribute('class', 'ui mini rounded image');
+                    h4Away.appendChild(imgAway);
+                    h4Away.appendChild(divAwayContent);
+                    tdAway.appendChild(h4Away);
+
+                    var tdAwayAmount = document.createElement('td');
+                    tdAwayAmount.setAttribute('style', 'text-align:center !important');
+                    tdAwayAmount.textContent = typeof match.teams[match.awayShort] !== 'undefined' ? match.teams[match.awayShort].toLocaleString('en-IN') : '0';
+
+                    tr.appendChild(tdHomeAmount);
+                    tr.appendChild(tdHome);
+                    tr.appendChild(tdMiddle);
+                    tr.appendChild(tdAway);
+                    tr.appendChild(tdAwayAmount);
+
+                    parent.appendChild(tr);
+                }
+            }
+        });
+
+    </script>
+    <% include ../../partials/admin/footer.ejs %>

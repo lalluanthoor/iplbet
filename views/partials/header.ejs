@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<title>
+    <%= title %>
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/stylesheets/semantic.min.css">
+<script src="/scripts/jquery-3.1.1.min.js"></script>
+<script src="/scripts/semantic.min.js"></script>
+<style>
+.ui.link.cards.segment{
+    margin-top:20px;
+    width: 90% !important;
+    margin-left:5%;
+}
+</style>
+<body>
+    <div class="ui pointing menu">
+        <div class="header item">
+            <img src="/images/BeBa.png" style="height:30px"/>
+        </div>
+        <a class="<% if(active === 'home'){ %> <%= 'active' %> <% } %> item" href="/">Home</a>
+        <a class="<% if(active === 'rules'){ %> <%= 'active' %> <% } %> item" href="/rules">Rules</a>
+        <a class="<% if(active === 'fixtures'){ %> <%= 'active' %> <% } %> item" href="/fixtures">Fixtures</a>
+        <a class="<% if(active === 'prizes'){ %> <%= 'active' %> <% } %> item" href="/prizes">Prizes</a>
+        <a class="<% if(active === 'stats'){ %> <%= 'active' %> <% } %> item" href="/stats">Statistics</a>
+        <a class="<% if(active === 'leaders'){ %> <%= 'active' %> <% } %> item" href="/leaders">Leaderboard</a>
+        <div class="ui right dropdown item">Login<i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item"><a href="/auth/google"><i class="google icon"></i> Google</a></div>
+                <div class="item"><a href="/auth/facebook"><i class="facebook icon"></i> Facebook</a></div>
+                <div class="item"><a href="/auth/twitter"><i class="twitter icon"></i> Twitter</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="ui center aligned container"><img src="/images/BeBa.png" style="height:100px;"/></div>

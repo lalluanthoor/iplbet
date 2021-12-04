@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<title>
+    <%= title %>
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/stylesheets/semantic.min.css">
+<script src="/scripts/jquery-3.1.1.min.js"></script>
+<script src="/scripts/semantic.min.js"></script>
+<script src="/scripts/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+<style>
+    .ui.link.cards.segment {
+        margin-top: 20px;
+        width: 90% !important;
+        margin-left: 5%;
+    }
+</style>
+
+<body>
+    <div class="ui pointing menu" style="margin-top:0;">
+        <div class="header item">
+            <img src="/images/BeBa.png" style="height:30px" />
+        </div>
+        <a class="<% if(active === 'home'){ %> <%= 'active' %> <% } %> item" href="/admin/">Home</a>
+        <a class="<% if(active === 'stats'){ %> <%= 'active' %> <% } %> item" href="/admin/stats">Stats</a>
+        <a class="<% if(active === 'users'){ %> <%= 'active' %> <% } %> item" href="/admin/users">User Management</a>
+        <a class="<% if(active === 'pots'){ %> <%= 'active' %> <% } %> item" href="/admin/pots">Pot Management</a>
+        <a class="<% if(active === 'transfers'){ %> <%= 'active' %> <% } %> item" href="/admin/transfers">Transfer Management</a>
+        <a class="<% if(active === 'results'){ %> <%= 'active' %> <% } %> item" href="/admin/results">Publish Results</a>
+        <a class="<% if(active === 'rank'){ %> <%= 'active' %> <% } %> item" href="/admin/rank">Rank List</a>
+        <div class="ui right dropdown item">
+            <%= user.name %><i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item"><a href="/logout"><i class="sign out icon"></i> Logout</a></div>
+                </div>
+        </div>
+    </div>
+    <div class="ui center aligned container"><img src="/images/BeBa.png" style="height:100px;" /></div>

@@ -1,0 +1,275 @@
+<% include ../../partials/admin/header.ejs %>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    <div class="ui top attached tabular link menu" style="width:80%; margin-left: 10%;">
+        <div class="active item" id="activate">Activate Users</div>
+        <div class="item" id="deactivate">Deactivate Users</div>
+        <div class="item" id="bonus">Bonus</div>
+    </div>
+    <div class="ui bottom attached active tab segment" style="width:80%; margin-left: 10%;">
+        <div class="ui active inverted dimmer" id="chartBusy">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <div id="activate-user" class="tabelement">
+            <table class="ui very basic collapsing striped celled table" style="width:90%; margin-left: 5%;">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Name</th>
+                        <th>E Mail</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="deactivate-user" class="tabelement hidden">
+            <table class="ui very basic collapsing striped celled table" style="width:90%; margin-left: 5%;">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Name</th>
+                        <th>E Mail</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="bonus-user" class="tabelement hidden">
+            <div class="ui segment" style="width:48%;float:right">
+                <div class="ui header">All Users Bonus</div>
+                <div class="ui form">
+                    <div class="field">
+                        <label>Amount</label>
+                        <div class="ui labeled input">
+                            <div class="ui label">₹</div>
+                            <input type="number" name="groupamount" id="groupamount" placeholder="Amount">
+                        </div>
+                    </div>
+                    <button class="ui positive button" id="addgroup">Add Bonus</button>
+                </div>
+            </div>
+            <div class="ui segment" style="width:48%;">
+                <div class="ui header">Single User Bonus</div>
+                <div class="ui form" style="display:inline-block; width:100%;">
+                    <div class="field">
+                        <label>User</label>
+                        <select class="ui fluid search dropdown" name="user" id="user">
+                            <option value="">Select User</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Amount</label>
+                        <div class="ui labeled input">
+                            <div class="ui label">₹</div>
+                            <input type="number" name="singleamount" id="singleamount" placeholder="Amount">
+                        </div>
+                    </div>
+                    <button class="ui positive button" id="addsingle">Add Bonus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function activateUser(id) {
+            $.ajax('/apis/user/activate', {
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ userId: id }),
+                success: function (data) {
+                    $('.modal .header')[0].textContent = "Success";
+                    $('.modal .content p')[0].textContent = data;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                },
+                error: function (error) {
+                    $('.modal .header')[0].textContent = error.statusText;
+                    $('.modal .content p')[0].textContent = error.responseText;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                }
+            });
+        }
+
+        function deactivateUser(id) {
+            $.ajax('/apis/user/deactivate', {
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ userId: id }),
+                success: function (data) {
+                    $('.modal .header')[0].textContent = "Success";
+                    $('.modal .content p')[0].textContent = data;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                },
+                error: function (error) {
+                    $('.modal .header')[0].textContent = error.statusText;
+                    $('.modal .content p')[0].textContent = error.responseText;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                }
+            });
+        }
+
+        function createRow(index, name, email, id, defaultText, altText) {
+            var tr = document.createElement('tr');
+
+            var td1 = document.createElement('td');
+            td1.textContent = index;
+            tr.appendChild(td1);
+
+            var td2 = document.createElement('td');
+            td2.textContent = name;
+            tr.appendChild(td2);
+
+            var td3 = document.createElement('td');
+            td3.textContent = email;
+            tr.appendChild(td3);
+
+            var td4 = document.createElement('td');
+            var toggle = document.createElement('div');
+            toggle.setAttribute('type', 'checkbox');
+            toggle.setAttribute('class', 'ui toggle checkbox');
+            var cb = document.createElement('input');
+            cb.setAttribute('type', 'checkbox');
+            cb.setAttribute('name', 'activate');
+            cb.setAttribute('id', id);
+            cb.addEventListener('change', function (oEvent) {
+                $('.dimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+                if (oEvent.target.checked) {
+                    activateUser(oEvent.target.id);
+                    $('#cb-' + oEvent.target.id)[0].textContent = altText;
+
+                } else {
+                    deactivateUser(oEvent.target.id);
+                    $('#cb-' + oEvent.target.id)[0].textContent = altText;
+                }
+            });
+            if (defaultText === "Deactivate") {
+                cb.setAttribute('checked', true);
+            }
+            var lbl = document.createElement('label');
+            lbl.setAttribute('id', 'cb-' + id);
+            lbl.textContent = defaultText;
+            toggle.appendChild(cb);
+            toggle.appendChild(lbl);
+            td4.appendChild(toggle);
+            tr.appendChild(td4);
+
+            return tr;
+        }
+        //TAB SWITCHING LOGIC
+        $('.tabular.link.menu .item').on('click', function (oEvent) {
+            $('.tabular.link.menu .item').removeClass('active');
+            $('.tabelement').each(function (index, element) {
+                element.setAttribute('class', 'tabelement hidden');
+            });
+            oEvent.target.setAttribute('class', 'active item');
+            $('#' + oEvent.target.id + '-user').removeClass('hidden');
+        });
+
+        $.ajax('/apis/user/all', {
+            success: function (data) {
+                data = JSON.parse(data);
+                var activeUsers = data.filter(function (element) {
+                    return element.suspended === 0;
+                });
+                var activeTable = $('#deactivate-user tbody')[0];
+                activeUsers.forEach(function (user, index) {
+                    activeTable.appendChild(createRow(index + 1, user.name, user.email, user.id, "Deactivate", "Activate"));
+                });
+                var inactiveUsers = data.filter(function (element) {
+                    return element.suspended === 1;
+                });
+                var inactiveTable = $('#activate-user tbody')[0];
+                inactiveUsers.forEach(function (user, index) {
+                    inactiveTable.appendChild(createRow(index + 1, user.name, user.email, user.id, "Activate", "Deactivate"));
+                });
+                $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            },
+            error: function (error) {
+                $('.modal .header')[0].textContent = error.statusText;
+                $('.modal .content p')[0].textContent = error.responseText;
+                $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            }
+        });
+
+        $.ajax('/apis/user/activeadm', {
+            success: function (data) {
+                data = JSON.parse(data);
+                var select = $('#user')[0];
+                data.forEach(function (element) {
+                    var option = document.createElement('option');
+                    option.setAttribute('value', element.id);
+                    option.textContent = element.name;
+                    select.appendChild(option);
+                });
+            },
+            error: function (error) {
+                $('.modal .header')[0].textContent = error.statusText;
+                $('.modal .content p')[0].textContent = error.responseText;
+                $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+            }
+        });
+
+        $('#addsingle')[0].addEventListener('click', function (oEvent) {
+            $('.dimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+            var user = $('#user')[0].value;
+            var amount = $('#singleamount')[0].value;
+
+            $.ajax('/apis/balance/update/user', {
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    user: user,
+                    amount: parseInt(amount, 10)
+                }),
+                success: function (data) {
+                    $('.modal .header')[0].textContent = "Success";
+                    $('.modal .content p')[0].textContent = data;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                },
+                error: function (error) {
+                    $('.modal .header')[0].textContent = error.statusText;
+                    $('.modal .content p')[0].textContent = error.responseText;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                }
+            });
+        });
+
+        $('#addgroup')[0].addEventListener('click', function (oEvent) {
+            $('.dimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+            var amount = $('#groupamount')[0].value;
+
+            $.ajax('/apis/balance/update/all', {
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    amount: amount
+                }),
+                success: function (data) {
+                    $('.modal .header')[0].textContent = "Success";
+                    $('.modal .content p')[0].textContent = data;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                },
+                error: function (error) {
+                    $('.modal .header')[0].textContent = error.statusText;
+                    $('.modal .content p')[0].textContent = error.responseText;
+                    $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                    $('.dimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                }
+            });
+        });
+    </script>
+    <% include ../../partials/admin/footer.ejs %>

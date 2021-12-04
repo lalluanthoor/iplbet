@@ -1,0 +1,370 @@
+<% include ../../partials/admin/header.ejs %>
+    <div class="ui segment" style="width:90%; margin-left:5%">
+        <div class="ui active inverted dimmer" id="stdimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <div class="ui header">Define Short Term Pots</div>
+        <div class="ui form" style="display:inline-block; width:100%;">
+            <div class="field">
+                <label>Match</label>
+                <select class="ui fluid search dropdown" id="match">
+                    <option value="">Select Match</option>
+                </select>
+            </div>
+            <div id="tlb"></div>
+            <div id="stb"></div>
+        </div>
+    </div>
+    <div class="ui segment" style="width:90%; margin-left:5%">
+        <div class="ui active inverted dimmer" id="ltdimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <div class="ui header">Define Long Term Pots</div>
+        <div class="ui form" style="display:inline-block; width:100%;" id="ltbet"></div>
+    </div>
+
+    <script>
+        function normalizeDate(date) {
+            return date.getFullYear() + "-" + ((date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1)) + "-" + (date.getDate() > 9 ? date.getDate() : "0" + date.getDate());
+        }
+
+        function normalizeTime(date) {
+            return (date.getHours() > 9 ? date.getHours() : ("0"+ date.getHours())) + ":" + (date.getMinutes() > 9 ? date.getMinutes() : ("0" + date.getMinutes())) + ":" + (date.getSeconds() > 9 ? date.getSeconds() : ("0" + date.getSeconds()));
+        }
+
+        function staticEntry(name, active) {
+            var cbdiv1 = document.createElement('div');
+            cbdiv1.setAttribute('class', 'ui toggle checkbox field');
+            var i1 = document.createElement('input');
+            i1.setAttribute('type', 'checkbox');
+            i1.setAttribute('id', name);
+            if (active) {
+                i1.setAttribute('checked', active);
+                cbdiv1.setAttribute('class', 'ui disabled toggle checkbox field');
+            }
+            cbdiv1.appendChild(i1);
+            var lbl1 = document.createElement('label');
+            lbl1.textContent = name;
+            cbdiv1.appendChild(lbl1);
+            return cbdiv1;
+        }
+        $.ajax('/apis/pot/long-term', {
+            success: function(data) {
+                data = JSON.parse(data);
+                var form = $('#ltbet')[0];
+                $(form).empty();
+                data.forEach(function(pot) {
+                    var field = document.createElement('div');
+                    field.setAttribute('class', 'field');
+
+                    var label = document.createElement('label');
+                    label.textContent = pot.displayName;
+                    field.appendChild(label);
+
+
+
+                    var fields = document.createElement('div');
+                    fields.setAttribute('class', 'fields');
+
+                    var hinput = document.createElement('input');
+                    hinput.setAttribute('type', 'hidden');
+                    hinput.setAttribute('value', pot.id);
+                    fields.appendChild(hinput);
+
+                    var d1 = document.createElement('div');
+                    d1.setAttribute('class', 'four wide field');
+                    var i1 = document.createElement('input');
+                    i1.setAttribute('type', 'date');
+                    i1.setAttribute('value', normalizeDate(new Date(pot.openTime)));
+                    d1.appendChild(i1);
+                    fields.appendChild(d1);
+                    var d2 = document.createElement('div');
+                    d2.setAttribute('class', 'four wide field');
+                    var i2 = document.createElement('input');
+                    i2.setAttribute('type', 'time');
+                    i2.setAttribute('value', normalizeTime(new Date(pot.openTime)));
+                    d2.appendChild(i2);
+                    fields.appendChild(d2);
+                    var d3 = document.createElement('div');
+                    d3.setAttribute('class', 'four wide field');
+                    var i3 = document.createElement('input');
+                    i3.setAttribute('type', 'date');
+                    i3.setAttribute('value', normalizeDate(new Date(pot.closeTime)));
+                    d3.appendChild(i3);
+                    fields.appendChild(d3);
+                    var d4 = document.createElement('div');
+                    d4.setAttribute('class', 'four wide field');
+                    var i4 = document.createElement('input');
+                    i4.setAttribute('type', 'time');
+                    i4.setAttribute('value', normalizeTime(new Date(pot.closeTime)));
+                    d4.appendChild(i4);
+                    fields.appendChild(d4);
+                    var d5 = document.createElement('div');
+                    d5.setAttribute('class', 'two wide field');
+                    var i5 = document.createElement('input');
+                    i5.setAttribute('type', 'number');
+                    i5.setAttribute('id', 'home');
+                    i5.setAttribute('placeholder', 'Home Multiplier');
+                    i5.setAttribute('value', pot.multiplierHome);
+                    d5.appendChild(i5);
+                    fields.appendChild(d5);
+                    field.appendChild(fields);
+                    form.appendChild(field);
+                });
+                var btn = document.createElement('button');
+                btn.setAttribute('class', 'ui positive button');
+                btn.textContent = 'Update Pots';
+                btn.addEventListener('click', function(oEvent) {
+                    $('#ltdimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+                    var inputs = $('#ltbet .fields');
+                    var payload = {};
+                    var potid = 0;
+                    inputs.each((index, element) => {
+                        $(element).find('input').each((idx, elem) => {
+                            switch (idx) {
+                                case 0:
+                                    payload[$(elem).val()] = {};
+                                    potid = $(elem).val();
+                                    break;
+                                case 1:
+                                    payload[potid].openTime = $(elem).val() + 'T';
+                                    break;
+                                case 2:
+                                    payload[potid].openTime += $(elem).val() + '+05:30';
+                                    break;
+                                case 3:
+                                    payload[potid].closeTime = $(elem).val() + 'T';
+                                    break;
+                                case 4:
+                                    payload[potid].closeTime += $(elem).val() + '+05:30';
+                                    break;
+                                case 5:
+                                    payload[potid].multiplier = $(elem).val();
+                                    break;
+                            }
+                        });
+                    });
+                    $.ajax('/apis/pot/update/long-term', {
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(payload),
+                        success: function(data) {
+                            $('.modal .header')[0].textContent = 'Success';
+                            $('.modal .content p')[0].textContent = data;
+                            $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                            $('#ltdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                        },
+                        error: function(error) {
+                            $('.modal .header')[0].textContent = error.statusText;
+                            $('.modal .content p')[0].textContent = error.responseText;
+                            $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                            $('#ltdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                        }
+                    });
+                });
+                form.appendChild(btn);
+                $('#ltdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            },
+            error: function(error) {
+                $('.modal .header')[0].textContent = error.statusText;
+                $('.modal .content p')[0].textContent = error.responseText;
+                $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                $('#ltdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            }
+        });
+        $.ajax('/apis/match/undeclared', {
+            success: function(data) {
+                data = JSON.parse(data);
+                var select = $('#match')[0];
+                data.forEach(function(match) {
+                    var option = document.createElement('option');
+                    option.setAttribute('value', match.id);
+                    option.textContent = match.home.name + ' vs ' + match.away.name + ' (' + match.fixture.date + ')';
+                    select.appendChild(option);
+                });
+                select.addEventListener('change', function(oEvent) {
+                    $('#stdimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+                    var matchID = oEvent.target.value;
+                    $.ajax('/apis/pot/match/' + matchID, {
+                        async: true,
+                        success: function(data) {
+                            data = JSON.parse(data);
+                            window.ot = data[0].openTime;
+                            window.ct = data[0].closeTime;
+                            var form = $('#tlb')[0];
+                            $(form).empty();
+                            data.forEach(function(pot) {
+                                if (pot.isTeamLevel) {
+                                    var field = document.createElement('div');
+                                    field.setAttribute('class', 'field');
+
+                                    var label = document.createElement('label');
+                                    label.textContent = pot.displayName;
+                                    field.appendChild(label);
+
+                                    var fields = document.createElement('div');
+                                    var hinput = document.createElement('input');
+                                    hinput.setAttribute('type', 'hidden');
+                                    hinput.setAttribute('value', pot.id);
+                                    fields.appendChild(hinput);
+                                    fields.setAttribute('class', 'fields');
+                                    var d1 = document.createElement('div');
+                                    d1.setAttribute('class', 'three wide disabled field');
+                                    var i1 = document.createElement('input');
+                                    i1.setAttribute('type', 'date');
+                                    i1.setAttribute('value', normalizeDate(new Date(pot.openTime)));
+                                    d1.appendChild(i1);
+                                    fields.appendChild(d1);
+                                    var d2 = document.createElement('div');
+                                    d2.setAttribute('class', 'three wide disabled field');
+                                    var i2 = document.createElement('input');
+                                    i2.setAttribute('type', 'time');
+                                    i2.setAttribute('value', normalizeTime(new Date(pot.openTime)));
+                                    d2.appendChild(i2);
+                                    fields.appendChild(d2);
+                                    var d3 = document.createElement('div');
+                                    d3.setAttribute('class', 'three wide disabled field');
+                                    var i3 = document.createElement('input');
+                                    i3.setAttribute('type', 'date');
+                                    i3.setAttribute('value', normalizeDate(new Date(pot.closeTime)));
+                                    d3.appendChild(i3);
+                                    fields.appendChild(d3);
+                                    var d4 = document.createElement('div');
+                                    d4.setAttribute('class', 'three wide disabled field');
+                                    var i4 = document.createElement('input');
+                                    i4.setAttribute('type', 'time');
+                                    i4.setAttribute('value', normalizeTime(new Date(pot.closeTime)));
+                                    d4.appendChild(i4);
+                                    fields.appendChild(d4);
+                                    var d5 = document.createElement('div');
+                                    d5.setAttribute('class', 'three wide field');
+                                    var i5 = document.createElement('input');
+                                    i5.setAttribute('type', 'number');
+                                    i5.setAttribute('id', 'home');
+                                    i5.setAttribute('placeholder', 'Home Multiplier');
+                                    i5.setAttribute('value', pot.multiplierHome);
+                                    d5.appendChild(i5);
+                                    fields.appendChild(d5);
+                                    var d6 = document.createElement('div');
+                                    d6.setAttribute('class', 'three wide field');
+                                    var i6 = document.createElement('input');
+                                    i6.setAttribute('type', 'number');
+                                    i6.setAttribute('id', 'away');
+                                    i6.setAttribute('placeholder', 'Away Multiplier');
+                                    i6.setAttribute('value', pot.multiplierAway)
+                                    d6.appendChild(i6);
+                                    fields.appendChild(d6);
+                                    field.appendChild(fields);
+                                    form.appendChild(field);
+                                }
+                            });
+                        },
+                        error: function(data) {
+                            $('.modal .header')[0].textContent = error.statusText;
+                            $('.modal .content p')[0].textContent = error.responseText;
+                            $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                        }
+                    });
+                    $.ajax('/apis/pot/static/' + matchID, {
+                        success: function(data) {
+                            var d2 = JSON.parse(data);
+
+                            data = JSON.parse(data);
+                            data.active.map(function(item, index) {
+                                data.active[index] = {
+                                    active: true,
+                                    value: item
+                                };
+                            });
+                            data.inactive.map(function(item, index) {
+                                data.inactive[index] = {
+                                    active: false,
+                                    value: item
+                                };
+                            });
+                            data = data.active.concat(data.inactive);
+
+                            var form = $('#stb')[0];
+                            $(form).empty();
+                            var i;
+                            var threeFields = document.createElement('div');
+                            threeFields.setAttribute('class', 'three fields');
+                            for (i = 0; i < 3; i++) {
+                                threeFields.appendChild(staticEntry(data[i].value, data[i].active));
+                            }
+                            form.appendChild(threeFields);
+                            var threeFields = document.createElement('div');
+                            threeFields.setAttribute('class', 'three fields');
+                            for (i = 3; i < 6; i++) {
+                                threeFields.appendChild(staticEntry(data[i].value, data[i].active));
+                            }
+                            form.appendChild(threeFields);
+                            var threeFields = document.createElement('div');
+                            threeFields.setAttribute('class', 'three fields');
+                            for (i = 6; i < 9; i++) {
+                                threeFields.appendChild(staticEntry(data[i].value, data[i].active));
+                            }
+                            form.appendChild(threeFields);
+                            var btn = document.createElement('button');
+                            btn.setAttribute('class', 'ui positive button');
+                            btn.textContent = 'Update Pots';
+                            btn.addEventListener('click', function(oEvent) {
+                                $('#stdimmer')[0].setAttribute('class', 'ui active inverted dimmer');
+                                var payload = {
+                                    match: matchID,
+                                    openTime: window.ot,
+                                    closeTime: window.ct,
+                                    pots: {},
+                                    static: []
+                                };
+                                var static = [];
+                                $('input[type=checkbox]').each(function(index, item) {
+                                    if (item.checked && d2.active.indexOf(item.id) === -1) {
+                                        static.push(item.id);
+                                    }
+                                });
+                                payload.static = static;
+                                $('#tlb .fields').each((idx, elem) => {
+                                    var potID = $(elem).find('input[type=hidden]').val();
+                                    payload.pots[potID] = {};
+                                    $(elem).find('input[type=number]').each((index, element) => {
+                                        if (index) payload.pots[potID].away = $(element).val();
+                                        else payload.pots[potID].home = $(element).val();
+                                    });
+                                });
+                                $.ajax('/apis/pot/add/short-term', {
+                                    method: 'POST',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(payload),
+                                    success: function(data) {
+                                        $('.modal .header')[0].textContent = 'Success';
+                                        $('.modal .content p')[0].textContent = data;
+                                        $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                                        $('#stdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                                    },
+                                    error: function(error) {
+                                        $('.modal .header')[0].textContent = error.statusText;
+                                        $('.modal .content p')[0].textContent = error.responseText;
+                                        $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                                        $('#stdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                                    }
+                                });
+                            });
+                            form.appendChild(btn);
+                            $('#stdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+                        }
+                    });
+                });
+                $('#stdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            },
+            error: function(error) {
+                $('.modal .header')[0].textContent = error.statusText;
+                $('.modal .content p')[0].textContent = error.responseText;
+                $('.modal').modal('setting', 'transition', 'vertical flip').modal('show');
+                $('#stdimmer')[0].setAttribute('class', 'ui inverted dimmer');
+            }
+        })
+
+    </script>
+
+    <% include ../../partials/admin/footer.ejs %>

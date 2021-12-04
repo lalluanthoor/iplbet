@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<title>
+    <%= title %>
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/stylesheets/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/range.css">
+<script src="/scripts/jquery-3.1.1.min.js"></script>
+<script src="/scripts/semantic.min.js"></script>
+<script src="/scripts/moment.min.js"></script>
+<script src="/scripts/range.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+<style>
+    .ui.link.cards.segment {
+        margin-top: 20px;
+        width: 90% !important;
+        margin-left: 5%;
+    }
+</style>
+
+
+<body>
+    <div class="ui pointing menu" style="margin-top:0;">
+        <div class="header item">
+            <img src="/images/BeBa.png" style="height:30px" />
+        </div>
+        <a class="<% if(active === 'home'){ %> <%= 'active' %> <% } %> item" href="/users/">Home</a>
+        <div class="ui dropdown item">Information<i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item"><a href="/users/rules">Rules</a></div>
+                <div class="item"><a href="/users/fixtures">Fixtures</a></div>
+                <div class="item"><a href="/users/prizes">Prizes</a></div>
+                <div class="item"><a href="/users/stats">Statistics</a></div>
+            </div>
+        </div>
+        <a class="<% if(active === 'bets'){ %> <%= 'active' %> <% } %> item" href="/users/betzone">Bets</a>
+        <% if(transfer === 'enabled') { %> <a class="<% if(active === 'transfer'){ %> <%= 'active' %> <% } %> item" href="/users/transfer">Transfers</a> <% } %>
+        <a class="<% if(active === 'leaders'){ %> <%= 'active' %> <% } %> item" href="/users/leaders">Leaderboard</a>
+        <div class="ui right dropdown item">
+            <%= user.name %><i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item"><a href="/logout"><i class="sign out icon"></i> Logout</a></div>
+                </div>
+        </div>
+    </div>
+    <div class="ui center aligned container"><img src="/images/BeBa.png" style="height:100px;" /></div>
